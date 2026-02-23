@@ -14,6 +14,24 @@ app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
 
+// Interface for health check response
+interface HealthCheckResponse {
+    status: string;
+    uptime: number;
+    timestamp: string;
+    version: string;
+}
+
+// api healthcheck
+app.get("/api/v1/health", (req, res) => {
+    const healthData: HealthCheckResponse = {
+        status: "OK",
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        version: "1.0.0",
+    };
+    res.json(healthData);
+});
 // Route handler for items
 app.use("/api/v1", router);
 
