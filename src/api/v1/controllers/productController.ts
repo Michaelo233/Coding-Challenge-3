@@ -1,38 +1,22 @@
-// creating new event 
-export const createEvent = async (
-    eventData: {
-        name: string, 
-        date: string, 
-        capacity: number
-        resgistrationCount?: number,
-        status?: string,
-        category?: string
+import { Request, Response, NextFunction } from "express";
+import * as productService from "../services/productService";
+import { successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
-    }): Promise<Event> => {
+// handles POST request to create new product
+export const createProductHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
+        const {name, sku, quantity, price, category} = req.body;
+        const productData = {name, sku, quantity, price, category};
 
-        const events = await firestoreRepository.getAllDocuments<Event>(COLLECTION)
-        const newEventData = {
-            id: "evt_00000" + (events.length + 1).toString(), 
-            name: eventData.name,
-            date: eventData.date,
-            capacity: eventData.capacity,
-            resgistrationCount: eventData.resgistrationCount ?? 0,
-            status: eventData.status ?? "active",
-            category: eventData.category ?? "general",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        };
-        
-        const eventId = await firestoreRepository.createDocument<Event>(COLLECTION, newEventData);
-        
-        return {eventId, ... newEventData} as Event;
-        
+        const newProduct = await productService.createProduct(productData);
+
+        res.status(HTTP_STATUS.OK).json(successResponse({newProduct}, "Event created successfully"));
     } catch (error: unknown) {
-        const errorMessage =
-            error instanceof Error ? error.message : "Unknown error";
-        throw new Error(
-            `Failed to create event: ${errorMessage}`
-        );
+        next(error);
     }
 };

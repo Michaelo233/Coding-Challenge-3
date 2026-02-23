@@ -2,7 +2,7 @@ import Joi from "joi";
 // import { register } from "node:module";
 
 // Post operation schemas organized by request part
-export const eventSchemas = {
+export const productSchemas = {
     // POST /events - Create new event
     create: {
         body: Joi.object({
