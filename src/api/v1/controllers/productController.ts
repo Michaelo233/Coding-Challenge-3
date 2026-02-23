@@ -4,19 +4,17 @@ import { successResponse } from "../models/responseModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 // handles POST request to create new product
-export const createProductHandler = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): Promise<void> => {
-    try {
-        const {name, sku, quantity, price, category} = req.body;
-        const productData = {name, sku, quantity, price, category};
-
-        const newProduct = await productService.createProduct(productData);
-
-        res.status(HTTP_STATUS.OK).json(successResponse({newProduct}, "Event created successfully"));
-    } catch (error: unknown) {
-        next(error);
-    }
+export const createEventHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const event = await productService.createProduct(req.body);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json(successResponse(event, "Event created successfully"));
+  } catch (error) {
+    next(error);
+  }
 };
