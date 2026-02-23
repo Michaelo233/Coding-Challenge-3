@@ -7,7 +7,7 @@ const COLLECTION = "products";
 
 // creating new product 
 export const createProduct = async (
-    eventData: {
+    productData: {
         name: string, 
         sku: string, 
         quantiy: number
@@ -19,16 +19,19 @@ export const createProduct = async (
 
         const products = await firestoreRepository.getAllDocuments<Product>(COLLECTION)
         const newProductData = {
-            id: products, 
-            name: eventData.name,
-            category: eventData.category ?? "general",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            id: "prod_00" + (products.length).toString(), 
+            name: productData.name,
+            sku: productData.sku,
+            quantity: productData.quantiy,
+            price: productData.price,
+            category: productData.category,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         };
         
-        const eventId = await firestoreRepository.createDocument<Event>(COLLECTION, newEventData);
+        // const productId = await firestoreRepository.createDocument<Product>(COLLECTION, newProductData);
         
-        return {eventId, ... newEventData} as Event;
+        return {... newProductData} as Product;
         
     } catch (error: unknown) {
         const errorMessage =
