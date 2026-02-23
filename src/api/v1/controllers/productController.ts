@@ -10,12 +10,25 @@ export const createProductHandler = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const {name, sku, quantity, price, category} = req.body;
-        const productData = {name, sku, quantity, price, category};
 
-        const newProduct = await productService.createProduct(productData);
+        const newProduct = await productService.createProduct(req.body);
 
         res.status(HTTP_STATUS.OK).json(successResponse({newProduct}, "Event created successfully"));
+    } catch (error: unknown) {
+        next(error);
+    }
+};
+
+// handles GET request to read all events
+export const getAllEventsHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const products = await productService.getAllProducts;
+
+        res.status(HTTP_STATUS.OK).json(successResponse({"count": products.length, products}, "Products retrieved successfully"));
     } catch (error: unknown) {
         next(error);
     }

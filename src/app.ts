@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import morgan from "morgan";
-// import router from "../path-to-routes";
+import router from "./api/v1/routes/productRoute"
 
 const app: Express = express();
 
@@ -33,7 +33,7 @@ app.get("/api/v1/health", (req, res) => {
     res.json(healthData);
 });
 // Route handler for items
-// app.use("/api/v1", router);
+app.use("/api/v1/products", router);
 
 // Export the app
 export default app;

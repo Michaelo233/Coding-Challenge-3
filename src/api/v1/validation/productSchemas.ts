@@ -9,7 +9,7 @@ export const productSchemas = {
             name: Joi.string().min(2).required().max(80),
             sku: Joi.string().pattern(/^[A-Z]{3}[0-9]{4}$/).required(),
             quantity: Joi.number().integer().min(0).required(),
-            status: Joi.number().required().positive().precision(2),
+            price: Joi.number().required().positive().precision(2),
             category: Joi.string().required().valid("electronics", "clothing", "food", "tools", "other"),
         }),
     },

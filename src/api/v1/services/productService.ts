@@ -41,3 +41,20 @@ export const createProduct = async (
         );
     }
 };
+
+// to get all event in a collection 
+export const getAllProducts = async (): Promise<Product[]> => {
+    try {
+        // const event = await firestoreRepository.createDocument<Event>(COLLECTION, newEventData);
+        const products = await firestoreRepository.getAllDocuments<Product>(COLLECTION);
+
+        return products;
+
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to retrieve all products: ${errorMessage}`
+        );
+    }
+};
