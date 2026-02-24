@@ -13,7 +13,7 @@ export const createProductHandler = async (
         const {name, sku, quantity, price, category} = req.body;
         const productData = {name, sku, quantity, price, category};
 
-        const newProduct = await productService.createProduct(productData);
+        const newProduct = await productService.createProduct(req.body);
 
         res.status(HTTP_STATUS.OK).json(successResponse({newProduct}, "Event created successfully"));
     } catch (error: unknown) {
